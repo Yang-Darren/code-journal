@@ -1,0 +1,22 @@
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+input,
+select,
+textarea {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+  border: 1px solid lightgray;
+}
+
+img {
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  img {
+    max-height: 40rem;
+  }
+}
