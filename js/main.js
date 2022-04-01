@@ -12,3 +12,11 @@ function handleInput() {
     $photoUrl.setAttribute('src', 'images/placeholder-image-square.jpg');
   }
 }
+
+var $form = document.querySelector('#code-form');
+$form.addEventListener('submit', submitForm);
+
+function submitForm(event) {
+  var newObj = {};
+  newObj.entryID = data.nextEntryId;
+}
