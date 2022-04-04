@@ -19,4 +19,9 @@ $form.addEventListener('submit', submitForm);
 function submitForm(event) {
   var newObj = {};
   newObj.entryID = data.nextEntryId;
+  newObj.title = $form.title.value;
+  newObj.photourl = $form.photo.value;
+  newObj.notes = $form.notes.values;
+  data.nextEntryId++;
+  data.entries.prepend(newObj);
 }
