@@ -24,4 +24,5 @@ function submitForm(event) {
   newObj.notes = $form.notes.values;
   data.nextEntryId++;
   data.entries.prepend(newObj);
+  document.querySelector('#photo').setAttribute('src', 'images/placeholder-image-square.jpg');
 }
