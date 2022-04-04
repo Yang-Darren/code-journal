@@ -17,13 +17,18 @@ var $form = document.querySelector('#code-form');
 $form.addEventListener('submit', submitForm);
 
 function submitForm(event) {
+  event.preventDefault();
   var newObj = {};
   newObj.entryID = data.nextEntryId;
   newObj.title = $form.title.value;
   newObj.photourl = $form.photo.value;
-  newObj.notes = $form.notes.values;
+  newObj.notes = $form.notes.value;
   data.nextEntryId++;
-  data.entries.prepend(newObj);
+  data.entries.push(newObj);
   document.querySelector('#photo').setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
+  var dataJSON = JSON.stringify(data);
+  localStorage.setItem('journal-data', dataJSON);
 }
+
+$form.addEventListener('submit', submitForm);
