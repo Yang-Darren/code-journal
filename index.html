@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Code Journal</title>
   <link rel="icon" href="images/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Proza+Libre&display=swap" rel="stylesheet">
   <link
     rel="stylesheet"
     crossorigin="anonymous"
@@ -14,12 +17,35 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="container">
   <header>
+    <h1>Code Journal</h1>
   </header>
   <main>
+    <div class="form" data-view="entry-form">
+      <h2>New Entry</h2>
+      <form class="row" id="code-form">
+        <div class="column-half">
+          <img id="photo" src="images/placeholder-image-square.jpg" alt="placeholder">
+        </div>
+        <div class="column-half">
+          <label for="title">Title</label>
+          <input required name="title" type="text" id="title">
+          <label for="photo">Photo URL</label>
+          <input required name="photo" type="url" id="photolink">
+        </div>
+        <div class="column-full">
+          <label for="notes">Notes</label>
+          <textarea name="notes" id="notes"></textarea>
+        </div>
+        <div class="button-wrapper">
+          <button form="code-form" name="save" type="submit" class="save-button">SAVE</button>
+        </div>
+      </form>
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
+
 </html>
