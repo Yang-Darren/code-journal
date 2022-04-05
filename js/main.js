@@ -27,8 +27,6 @@ function submitForm(event) {
   data.entries.push(newObj);
   document.querySelector('#photo').setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
-  var dataJSON = JSON.stringify(data);
-  localStorage.setItem('journal-data', dataJSON);
 }
 
 $form.addEventListener('submit', submitForm);
