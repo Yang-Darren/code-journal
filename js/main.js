@@ -4,8 +4,14 @@
 var $photoUrl = document.querySelector('#photolink');
 var $photo = document.querySelector('#photo');
 var entryCount = 0;
-
-$photoUrl.addEventListener('input', handleInput);
+var $allEntries = document.querySelector('ul');
+var $newEntry = document.querySelector('#form-entry');
+var $list = document.querySelector('#list');
+var $switchView = document.querySelector('.switch-view');
+var $switchBack = document.querySelector('.switch-back');
+var $form = document.querySelector('#code-form');
+var $saveButton = document.querySelector('.save-button');
+var $hideNoEntries = document.querySelector('.no-entries');
 
 function handleInput() {
   $photo.setAttribute('src', $photoUrl.value);
@@ -13,9 +19,6 @@ function handleInput() {
     $photoUrl.setAttribute('src', 'images/placeholder-image-square.jpg');
   }
 }
-
-var $form = document.querySelector('#code-form');
-$form.addEventListener('submit', submitForm);
 
 function submitForm(event) {
   event.preventDefault();
@@ -30,31 +33,6 @@ function submitForm(event) {
   $form.reset();
   var newEntry = renderEntries(newObj);
   $allEntries.prepend(newEntry);
-
-}
-
-var $newEntry = document.querySelector('#form-entry');
-var $list = document.querySelector('#list');
-var $switchView = document.querySelector('.switch-view');
-var $switchBack = document.querySelector('.switch-back');
-
-$switchView.addEventListener('click', clicked);
-$switchBack.addEventListener('click', click);
-
-function clicked(event) {
-  if (event.target.matches('.switch-view')) {
-    $list.classList.remove('hidden');
-  } if (event.target.matches('.switch-view')) {
-    $newEntry.classList.add('hidden');
-  }
-}
-
-function click(event) {
-  if (event.target.matches('.switch-back')) {
-    $newEntry.classList.remove('hidden');
-  } if (event.target.matches('.switch-back')) {
-    $list.classList.add('hidden');
-  }
 }
 
 function renderEntries(entry) {
@@ -87,12 +65,42 @@ function renderEntries(entry) {
   return $entry;
 }
 
-var $allEntries = document.querySelector('ul');
-
 function handleDomContent(event) {
   for (var i = 0; i < data.entries.length; i++) {
     var newEntry = renderEntries(data.entries[i]);
     $allEntries.append(newEntry);
   }
 }
+
+function clicked(event) {
+  if (event.target.matches('.switch-view')) {
+    $list.classList.remove('hidden');
+  } if (event.target.matches('.switch-view')) {
+    $newEntry.classList.add('hidden');
+  }
+}
+
+function click(event) {
+  if (event.target.matches('.switch-back')) {
+    $newEntry.classList.remove('hidden');
+  } if (event.target.matches('.switch-back')) {
+    $list.classList.add('hidden');
+  }
+}
+
+function hideNoEntries(event) {
+  if (event.target.matches('.save-button')) {
+    $hideNoEntries.className = 'no-entries hidden';
+  } if (event.target.matches('.save-button')) {
+    $newEntry.classList.add('hidden');
+  } if (event.target.matches('.save-button')) {
+    $list.classList.remove('hidden');
+  }
+}
+
+$form.addEventListener('submit', submitForm);
 window.addEventListener('DOMContentLoaded', handleDomContent);
+$switchView.addEventListener('click', clicked);
+$switchBack.addEventListener('click', click);
+$photoUrl.addEventListener('input', handleInput);
+$saveButton.addEventListener('click', hideNoEntries);
