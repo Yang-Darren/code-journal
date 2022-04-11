@@ -3,6 +3,7 @@
 
 var $photoUrl = document.querySelector('#photolink');
 var $photo = document.querySelector('#photo');
+var entryCount = 0;
 
 $photoUrl.addEventListener('input', handleInput);
 
@@ -27,6 +28,9 @@ function submitForm(event) {
   data.entries.push(newObj);
   document.querySelector('#photo').setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
+  var newEntry = renderEntries(newObj);
+  $allEntries.prepend(newEntry);
+
 }
 
 var $newEntry = document.querySelector('#form-entry');
@@ -52,3 +56,43 @@ function click(event) {
     $list.classList.add('hidden');
   }
 }
+
+function renderEntries(entry) {
+  var $entry = document.createElement('li');
+  $entry.className = 'submission';
+
+  var $row = document.createElement('div');
+  $row.className = 'row saved';
+  $entry.appendChild($row);
+
+  var $imageColumn = document.createElement('div');
+  $imageColumn.className = 'column-half';
+  $row.appendChild($imageColumn);
+
+  var $imageUrl = document.createElement('img');
+  $imageUrl.setAttribute('src', data.entries[entryCount].photourl);
+
+  $imageColumn.appendChild($imageUrl);
+
+  var $input = document.createElement('div');
+  $row.appendChild($input);
+  $input.className = 'column-half';
+  var $h3 = document.createElement('h3');
+  $h3.textContent = data.entries[entryCount].title;
+  var $p = document.createElement('p');
+  $p.textContent = data.entries[entryCount].notes;
+  $input.appendChild($h3);
+  $input.appendChild($p);
+  entryCount++;
+  return $entry;
+}
+
+var $allEntries = document.querySelector('ul');
+
+function handleDomContent(event) {
+  for (var i = 0; i < data.entries.length; i++) {
+    var newEntry = renderEntries(data.entries[i]);
+    $allEntries.append(newEntry);
+  }
+}
+window.addEventListener('DOMContentLoaded', handleDomContent);
