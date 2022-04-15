@@ -10,12 +10,19 @@ var $switchView = document.querySelector('.switch-view');
 var $switchBack = document.querySelector('.switch-back');
 var $form = document.querySelector('#code-form');
 var $hideNoEntries = document.querySelector('.no-entries');
-var $saveButton = document.querySelector('.save-button');
+var $buttons = document.querySelectorAll('[data-link]');
+var $tabView = document.querySelectorAll('[data-view]');
 
 function handleInput() {
   $photo.setAttribute('src', $photoUrl.value);
   if ($photoUrl.value === '') {
     $photoUrl.setAttribute('src', 'images/placeholder-image-square.jpg');
+  }
+}
+
+function hidePelement() {
+  if (data.entries.length > 0) {
+    $hideNoEntries.classList.add('hidden');
   }
 }
 
@@ -32,8 +39,7 @@ function submitForm(event) {
   document.querySelector('#photo').setAttribute('src', 'images/placeholder-image-square.jpg');
   var newEntry = renderEntries(newObj);
   $allEntries.prepend(newEntry);
-  $newEntry.className = 'form hidden';
-  $list.className = '';
+  changeView('entries');
 }
 
 function renderEntries(entry) {
@@ -62,6 +68,7 @@ function renderEntries(entry) {
   $p.textContent = entry.notes;
   $input.appendChild($h3);
   $input.appendChild($p);
+  hidePelement();
   return $entry;
 }
 
@@ -77,7 +84,7 @@ function clicked(event) {
     $list.classList.remove('hidden');
   } if (event.target.matches('.switch-view')) {
     $newEntry.classList.add('hidden');
-  }
+  } data.view = '';
 }
 
 function click(event) {
@@ -88,10 +95,22 @@ function click(event) {
   }
 }
 
-function hideNoEntries(event) {
-  if (event.target.matches('.save-button')) {
-    $hideNoEntries.classList.add('hidden');
+function activeView(event) {
+  var viewContent = event.target.getAttribute('data-link');
+  changeView(viewContent);
+}
+function changeView(viewContent) {
+  for (var j = 0; j < $tabView.length; j++) {
+    if ($tabView[j].getAttribute('data-view') === viewContent) {
+      $tabView[j].className = 'viewTab';
+    } else {
+      $tabView[j].className = 'viewTab hidden';
+    }
   }
+}
+
+for (var i = 0; i < $buttons.length; i++) {
+  $buttons[i].addEventListener('click', activeView);
 }
 
 window.addEventListener('DOMContentLoaded', handleDomContent);
@@ -99,4 +118,3 @@ $form.addEventListener('submit', submitForm);
 $switchView.addEventListener('click', clicked);
 $switchBack.addEventListener('click', click);
 $photoUrl.addEventListener('input', handleInput);
-$saveButton.addEventListener('click', hideNoEntries);
