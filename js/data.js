@@ -7,7 +7,7 @@ var data = {
   nextEntryId: 1
 };
 
-var previousEntries = localStorage.getItem('journal-entry');
+var previousEntries = localStorage.getItem('journal-data');
 if (previousEntries !== null) {
   data = JSON.parse(previousEntries);
 }
