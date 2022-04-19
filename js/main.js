@@ -12,6 +12,7 @@ var $form = document.querySelector('#code-form');
 var $hideNoEntries = document.querySelector('.no-entries');
 var $buttons = document.querySelectorAll('[data-link]');
 var $tabView = document.querySelectorAll('[data-view]');
+var $saveButton = document.querySelector('.save-button');
 
 function handleInput() {
   $photo.setAttribute('src', $photoUrl.value);
@@ -84,7 +85,7 @@ function clicked(event) {
     $list.classList.remove('hidden');
   } if (event.target.matches('.switch-view')) {
     $newEntry.classList.add('hidden');
-  } data.view = '';
+  }
 }
 
 function click(event) {
@@ -109,10 +110,36 @@ function changeView(viewContent) {
   }
 }
 
-for (var i = 0; i < $buttons.length; i++) {
-  $buttons[i].addEventListener('click', activeView);
+for (var k = 0; k < $buttons.length; k++) {
+  $buttons[k].addEventListener('click', activeView);
 }
 
+function refreshPage(page) {
+
+  data.view = page;
+  if (page === 'entry-form') {
+    $newEntry.classList.remove('hidden');
+    $list.classList.add('hidden');
+  } else if (page === 'entries') {
+    $list.classList.remove('hidden');
+    $newEntry.classList.add('hidden');
+  }
+}
+
+$switchBack.addEventListener('click', function (event) {
+  refreshPage('entry-form');
+});
+
+$switchView.addEventListener('click', function (event) {
+  refreshPage('entries');
+});
+
+$saveButton.addEventListener('click', function (event) {
+  refreshPage('entries');
+});
+window.addEventListener('DOMContentLoaded', function (event) {
+  refreshPage(data.view);
+});
 window.addEventListener('DOMContentLoaded', handleDomContent);
 $form.addEventListener('submit', submitForm);
 $switchView.addEventListener('click', clicked);
