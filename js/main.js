@@ -65,9 +65,12 @@ function renderEntries(entry) {
   $input.className = 'column-half';
   var $h3 = document.createElement('h3');
   $h3.textContent = entry.title;
+  var $editIcon = document.createElement('i');
+  $editIcon.className = 'fas fa-pen';
   var $p = document.createElement('p');
   $p.textContent = entry.notes;
   $input.appendChild($h3);
+  $input.appendChild($editIcon);
   $input.appendChild($p);
   hidePelement();
   return $entry;

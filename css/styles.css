@@ -96,6 +96,12 @@ ul {
   display: none;
 }
 
+.fas,
+.fa-pen {
+  font-size: 24px;
+  color: #68329e;
+}
+
 input,
 select,
 textarea {
