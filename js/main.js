@@ -64,14 +64,17 @@ function renderEntries(entry) {
   var $input = document.createElement('div');
   $row.appendChild($input);
   $input.className = 'column-half';
+  var $editing = document.createElement('div');
+  $editing.className = 'edit-container';
   var $h3 = document.createElement('h3');
   $h3.textContent = entry.title;
   var $editIcon = document.createElement('i');
   $editIcon.className = 'fas fa-pen';
   var $p = document.createElement('p');
   $p.textContent = entry.notes;
-  $input.appendChild($h3);
-  $input.appendChild($editIcon);
+  $editing.appendChild($h3);
+  $editing.appendChild($editIcon);
+  $input.appendChild($editing);
   $input.appendChild($p);
   hidePelement();
   return $entry;
@@ -130,6 +133,12 @@ function refreshPage(page) {
   }
 }
 
+function editEntries(event) {
+  if (event.target && event.target.tagName === 'I') {
+    changeView('entry-form');
+  }
+}
+
 $switchBack.addEventListener('click', function (event) {
   refreshPage('entry-form');
 });
@@ -149,3 +158,4 @@ $form.addEventListener('submit', submitForm);
 $switchView.addEventListener('click', clicked);
 $switchBack.addEventListener('click', click);
 $photoUrl.addEventListener('input', handleInput);
+$allEntries.addEventListener('click', editEntries);
