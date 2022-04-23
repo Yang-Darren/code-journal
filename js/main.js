@@ -46,6 +46,7 @@ function submitForm(event) {
 function renderEntries(entry) {
   var $entry = document.createElement('li');
   $entry.className = 'submission';
+  $entry.setAttribute('data-entry-id', entry.entryId);
 
   var $row = document.createElement('div');
   $row.className = 'row saved';
