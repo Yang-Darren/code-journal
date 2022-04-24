@@ -30,7 +30,7 @@ function hidePelement() {
 function submitForm(event) {
   event.preventDefault();
   var newObj = {};
-  newObj.entryID = data.nextEntryId;
+  newObj.entryId = data.nextEntryId;
   newObj.title = $form.title.value;
   newObj.photourl = $form.photo.value;
   newObj.notes = $form.notes.value;
@@ -135,7 +135,15 @@ function refreshPage(page) {
 
 function editEntries(event) {
   if (event.target && event.target.tagName === 'I') {
+    var $closestEntry = event.target.closest('.submission');
     changeView('entry-form');
+  }
+
+  var renderedEntriesId = $closestEntry.getAttribute('data-entry-id');
+  for (var l = 0; l < data.entries.length; l++) {
+    if (Number(renderedEntriesId) === data.entries[l].entryId) {
+      data.editing = data.entries[l];
+    }
   }
 }
 
