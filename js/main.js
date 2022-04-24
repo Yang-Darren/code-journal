@@ -13,6 +13,8 @@ var $hideNoEntries = document.querySelector('.no-entries');
 var $buttons = document.querySelectorAll('[data-link]');
 var $tabView = document.querySelectorAll('[data-view]');
 var $saveButton = document.querySelector('.save-button');
+var $editTitle = document.querySelector('#title');
+var $editNotes = document.querySelector('#notes');
 
 function handleInput() {
   $photo.setAttribute('src', $photoUrl.value);
@@ -144,6 +146,9 @@ function editEntries(event) {
     if (Number(renderedEntriesId) === data.entries[l].entryId) {
       data.editing = data.entries[l];
     }
+    $editTitle.value = data.editing.title;
+    $photoUrl.value = data.editing.photourl;
+    $editNotes.value = data.editing.notes;
   }
 }
 
