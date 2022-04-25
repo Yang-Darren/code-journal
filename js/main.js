@@ -13,6 +13,8 @@ var $hideNoEntries = document.querySelector('.no-entries');
 var $buttons = document.querySelectorAll('[data-link]');
 var $tabView = document.querySelectorAll('[data-view]');
 var $saveButton = document.querySelector('.save-button');
+var $editTitle = document.querySelector('#title');
+var $editNotes = document.querySelector('#notes');
 
 function handleInput() {
   $photo.setAttribute('src', $photoUrl.value);
@@ -30,22 +32,36 @@ function hidePelement() {
 function submitForm(event) {
   event.preventDefault();
   var newObj = {};
-  newObj.entryID = data.nextEntryId;
+  newObj.entryId = data.nextEntryId;
   newObj.title = $form.title.value;
   newObj.photourl = $form.photo.value;
   newObj.notes = $form.notes.value;
-  data.nextEntryId++;
-  $form.reset();
-  data.entries.unshift(newObj);
-  document.querySelector('#photo').setAttribute('src', 'images/placeholder-image-square.jpg');
   var newEntry = renderEntries(newObj);
-  $allEntries.prepend(newEntry);
+  if (data.editing !== null) {
+    newObj.entryId = data.editing.entryId;
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.editing.entryId === data.entries[i].entryId) {
+        data.entries[i] = newObj;
+        $allEntries.children[i].replaceWith(newEntry);
+        data.editing = null;
+        break;
+      }
+    }
+  } else {
+    data.nextEntryId++;
+    data.entries.unshift(newObj);
+    $allEntries.prepend(newEntry);
+    hidePelement();
+  }
+  $form.reset();
+  document.querySelector('#photo').setAttribute('src', 'images/placeholder-image-square.jpg');
   changeView('entries');
 }
 
 function renderEntries(entry) {
   var $entry = document.createElement('li');
   $entry.className = 'submission';
+  $entry.setAttribute('data-entry-id', entry.entryId);
 
   var $row = document.createElement('div');
   $row.className = 'row saved';
@@ -63,11 +79,17 @@ function renderEntries(entry) {
   var $input = document.createElement('div');
   $row.appendChild($input);
   $input.className = 'column-half';
+  var $editing = document.createElement('div');
+  $editing.className = 'edit-container';
   var $h3 = document.createElement('h3');
   $h3.textContent = entry.title;
+  var $editIcon = document.createElement('i');
+  $editIcon.className = 'fas fa-pen';
   var $p = document.createElement('p');
   $p.textContent = entry.notes;
-  $input.appendChild($h3);
+  $editing.appendChild($h3);
+  $editing.appendChild($editIcon);
+  $input.appendChild($editing);
   $input.appendChild($p);
   hidePelement();
   return $entry;
@@ -126,6 +148,23 @@ function refreshPage(page) {
   }
 }
 
+function editEntries(event) {
+  if (event.target && event.target.tagName === 'I') {
+    var $closestEntry = event.target.closest('.submission');
+    changeView('entry-form');
+  }
+
+  var renderedEntriesId = $closestEntry.getAttribute('data-entry-id');
+  for (var l = 0; l < data.entries.length; l++) {
+    if (Number(renderedEntriesId) === data.entries[l].entryId) {
+      data.editing = data.entries[l];
+    }
+    $editTitle.value = data.editing.title;
+    $photoUrl.value = data.editing.photourl;
+    $editNotes.value = data.editing.notes;
+  }
+}
+
 $switchBack.addEventListener('click', function (event) {
   refreshPage('entry-form');
 });
@@ -145,3 +184,4 @@ $form.addEventListener('submit', submitForm);
 $switchView.addEventListener('click', clicked);
 $switchBack.addEventListener('click', click);
 $photoUrl.addEventListener('input', handleInput);
+$allEntries.addEventListener('click', editEntries);
