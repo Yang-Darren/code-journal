@@ -36,12 +36,25 @@ function submitForm(event) {
   newObj.title = $form.title.value;
   newObj.photourl = $form.photo.value;
   newObj.notes = $form.notes.value;
-  data.nextEntryId++;
-  $form.reset();
-  data.entries.unshift(newObj);
-  document.querySelector('#photo').setAttribute('src', 'images/placeholder-image-square.jpg');
   var newEntry = renderEntries(newObj);
-  $allEntries.prepend(newEntry);
+  if (data.editing !== null) {
+    newObj.entryId = data.editing.entryId;
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.editing.entryId === data.entries[i].entryId) {
+        data.entries[i] = newObj;
+        $allEntries.children[i].replaceWith(newEntry);
+        data.editing = null;
+        break;
+      }
+    }
+  } else {
+    data.nextEntryId++;
+    data.entries.unshift(newObj);
+    $allEntries.prepend(newEntry);
+    hidePelement();
+  }
+  $form.reset();
+  document.querySelector('#photo').setAttribute('src', 'images/placeholder-image-square.jpg');
   changeView('entries');
 }
 
