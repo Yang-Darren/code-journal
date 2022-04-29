@@ -15,6 +15,7 @@ var $tabView = document.querySelectorAll('[data-view]');
 var $saveButton = document.querySelector('.save-button');
 var $editTitle = document.querySelector('#title');
 var $editNotes = document.querySelector('#notes');
+var $deleteEntry = document.querySelector('#delete');
 
 function handleInput() {
   $photo.setAttribute('src', $photoUrl.value);
@@ -43,6 +44,7 @@ function submitForm(event) {
       if (data.editing.entryId === data.entries[i].entryId) {
         data.entries[i] = newObj;
         $allEntries.children[i].replaceWith(newEntry);
+        $deleteEntry.classList.add('hidden');
         data.editing = null;
         break;
       }
@@ -151,6 +153,7 @@ function refreshPage(page) {
 function editEntries(event) {
   if (event.target && event.target.tagName === 'I') {
     var $closestEntry = event.target.closest('.submission');
+    $deleteEntry.classList.remove('hidden');
     changeView('entry-form');
   }
 

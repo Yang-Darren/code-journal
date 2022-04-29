@@ -67,7 +67,8 @@ button {
 
 .entries,
 .save-button,
-.fas {
+.fas,
+#delete {
   cursor: pointer;
 }
 
@@ -107,6 +108,11 @@ ul {
 .edit-container {
   display: flex;
   justify-content: space-between;
+}
+
+#delete {
+  color: red;
+  text-decoration: underline;
 }
 
 input,
