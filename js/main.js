@@ -163,6 +163,7 @@ function editEntries(event) {
       data.editing = data.entries[l];
     }
     $editTitle.value = data.editing.title;
+    $photo.setAttribute('src', data.editing.photourl);
     $photoUrl.value = data.editing.photourl;
     $editNotes.value = data.editing.notes;
   }
@@ -182,6 +183,7 @@ $saveButton.addEventListener('click', function (event) {
 window.addEventListener('DOMContentLoaded', function (event) {
   refreshPage(data.view);
 });
+
 window.addEventListener('DOMContentLoaded', handleDomContent);
 $form.addEventListener('submit', submitForm);
 $switchView.addEventListener('click', clicked);

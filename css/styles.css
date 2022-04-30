@@ -68,7 +68,9 @@ button {
 .entries,
 .save-button,
 .fas,
-#delete {
+#delete,
+#confirm,
+#cancel {
   cursor: pointer;
 }
 
