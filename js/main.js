@@ -15,6 +15,10 @@ var $tabView = document.querySelectorAll('[data-view]');
 var $saveButton = document.querySelector('.save-button');
 var $editTitle = document.querySelector('#title');
 var $editNotes = document.querySelector('#notes');
+var $deleteEntry = document.querySelector('#delete');
+var $cancelButton = document.querySelector('#cancel');
+var $confirmButton = document.querySelector('#confirm');
+var $modalOuter = document.querySelector('.modal-outer');
 
 function handleInput() {
   $photo.setAttribute('src', $photoUrl.value);
@@ -43,6 +47,7 @@ function submitForm(event) {
       if (data.editing.entryId === data.entries[i].entryId) {
         data.entries[i] = newObj;
         $allEntries.children[i].replaceWith(newEntry);
+        $deleteEntry.classList.add('hidden');
         data.editing = null;
         break;
       }
@@ -151,6 +156,7 @@ function refreshPage(page) {
 function editEntries(event) {
   if (event.target && event.target.tagName === 'I') {
     var $closestEntry = event.target.closest('.submission');
+    $deleteEntry.classList.remove('hidden');
     changeView('entry-form');
   }
 
@@ -160,6 +166,7 @@ function editEntries(event) {
       data.editing = data.entries[l];
     }
     $editTitle.value = data.editing.title;
+    $photo.setAttribute('src', data.editing.photourl);
     $photoUrl.value = data.editing.photourl;
     $editNotes.value = data.editing.notes;
   }
@@ -179,9 +186,31 @@ $saveButton.addEventListener('click', function (event) {
 window.addEventListener('DOMContentLoaded', function (event) {
   refreshPage(data.view);
 });
+
+function openModal(event) {
+  $modalOuter.className = 'modal-outer';
+}
+function closeModal(event) {
+  $modalOuter.className = 'modal-outer hidden';
+}
+function deleteEntry(event) {
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryId === data.editing.entryId) {
+      data.editing = null;
+      data.entries.splice(i, 1);
+      $allEntries.children[i].remove();
+      changeView('entries');
+      closeModal();
+    }
+  }
+}
+
 window.addEventListener('DOMContentLoaded', handleDomContent);
 $form.addEventListener('submit', submitForm);
 $switchView.addEventListener('click', clicked);
 $switchBack.addEventListener('click', click);
 $photoUrl.addEventListener('input', handleInput);
 $allEntries.addEventListener('click', editEntries);
+$deleteEntry.addEventListener('click', openModal);
+$cancelButton.addEventListener('click', closeModal);
+$confirmButton.addEventListener('click', deleteEntry);

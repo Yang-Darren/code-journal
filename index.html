@@ -26,6 +26,16 @@
     </header>
   </div>
 
+  <div id="modal" class="modal-outer hidden">
+    <div class="modal-content">
+      <h3>Are you sure you want to delete this entry?</h3>
+      <div class="edit-container">
+        <button id="cancel">Cancel</button>
+        <button id="confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
 
   <main>
     <div id="form-entry" class="form hidden" data-view="entry-form">
@@ -45,6 +55,7 @@
           <textarea name="notes" id="notes"></textarea>
         </div>
         <div class="button-wrapper">
+          <a id="delete" class="hidden">Delete Entry</a>
           <button form="code-form" name="save" type="submit" class="save-button">SAVE</button>
         </div>
       </form>
